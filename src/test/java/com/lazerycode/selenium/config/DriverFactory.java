@@ -68,7 +68,6 @@ public class DriverFactory {
         LOG.info("Local Architecture: " + systemArchitecture);
         LOG.info("Selected Browser: " + selectedDriverType);
         LOG.info("Connecting to Selenium Grid: " + useRemoteWebDriver);
-
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
         if (proxyEnabled) {

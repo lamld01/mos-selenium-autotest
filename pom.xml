@@ -40,7 +40,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
+        <java.version>21</java.version>
         <!--Dependency Versions-->
         <assertj-core.version>3.21.0</assertj-core.version>
         <jansi.version>2.3.4</jansi.version>
@@ -69,6 +69,11 @@
         <proxyPort/>
         <proxyUsername/>
         <proxyPassword/>
+        <webdriver.chrome.driver>target/test-classes/selenium_standalone_binaries/windows/googlechrome/64bit/chromedriver.exe</webdriver.chrome.driver>
+        <webdriver.ie.driver>target/test-classes/selenium_standalone_binaries/windows/internetexplorer/64bit/IEDriverServer.exe</webdriver.ie.driver>
+        <webdriver.opera.driver>target/test-classes/selenium_standalone_binaries/windows/operachromium/64bit/operadriver.exe</webdriver.opera.driver>
+        <webdriver.gecko.driver>target/test-classes/selenium_standalone_binaries/windows/marionette/64bit/geckodriver.exe</webdriver.gecko.driver>
+        <webdriver.edge.driver>target/test-classes/selenium_standalone_binaries/windows/edge/64bit/msedgedriver.exe</webdriver.edge.driver>
     </properties>
 
     <dependencies>

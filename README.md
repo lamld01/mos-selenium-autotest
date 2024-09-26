@@ -91,3 +91,6 @@ Currently, Brave seems to be a bit flaky when running in headless mode, I would 
 You probably don't have the brave binary installed in one of the default locations that this codebase is expecting.  That's OK though, you can specify it by seeting the following system property:
 
 - `-DbraveBinaryLocation=/path/to/brave-browser`
+
+run:
+mvn clean verify -P-selenium-tests -Dbrowser=chrome -Dheadless=false
