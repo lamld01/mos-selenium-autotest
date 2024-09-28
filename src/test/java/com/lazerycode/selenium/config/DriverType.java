@@ -20,15 +20,6 @@ import java.util.HashMap;
 
 public enum DriverType implements DriverSetup {
 
-    FIREFOX {
-        public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities) {
-            FirefoxOptions options = new FirefoxOptions();
-            options.merge(capabilities);
-            options.setHeadless(HEADLESS);
-
-            return new FirefoxDriver(options);
-        }
-    },
     CHROME {
         public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities) {
             HashMap<String, Object> chromePreferences = new HashMap<>();
@@ -38,9 +29,19 @@ public enum DriverType implements DriverSetup {
             options.merge(capabilities);
             options.setHeadless(HEADLESS);
             options.addArguments("--no-default-browser-check");
+            options.addArguments("--remote-allow-origins=*");
             options.setExperimentalOption("prefs", chromePreferences);
 
             return new ChromeDriver(options);
+        }
+    },
+    FIREFOX {
+        public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities) {
+            FirefoxOptions options = new FirefoxOptions();
+            options.merge(capabilities);
+            options.setHeadless(HEADLESS);
+
+            return new FirefoxDriver(options);
         }
     },
     IE {

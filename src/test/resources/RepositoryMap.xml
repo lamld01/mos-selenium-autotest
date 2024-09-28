@@ -32,8 +32,8 @@
         <driver id="googlechrome">
             <version id="95">
                 <bitrate thirtytwobit="true" sixtyfourbit="true">
-                    <filelocation>https://chromedriver.storage.googleapis.com/100.0.4896.20/chromedriver_win32.zip</filelocation>
-                    <hash>9bc27e5d010a76b420e96dc7932698d8316194f4</hash>
+                    <filelocation>https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.70/win64/chromedriver-win64.zip</filelocation>
+                    <hash>6dd79d61b231945622f6bd02ff65485fc2d04ca7</hash>
                     <hashtype>sha1</hashtype>
                 </bitrate>
             </version>

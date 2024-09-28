@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Vehicle Tests Suite" parallel="false">
+    <test name="Vehicle Group Test">
+        <groups>
+            <run>
+                <include name="vehicle-create"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.lazerycode.selenium.tests.vehicle.create.DriverCodeFieldIT"/>
+            <class name="com.lazerycode.selenium.tests.vehicle.create.DriverNameFieldIT"/>
+            <class name="com.lazerycode.selenium.tests.vehicle.create.LicensePlateFieldIT"/>
+            <class name="com.lazerycode.selenium.tests.vehicle.create.NoteFieldIT"/>
+            <class name="com.lazerycode.selenium.tests.vehicle.create.PhoneNumberFieldIT"/>
+            <class name="com.lazerycode.selenium.tests.vehicle.create.StatusFieldIT"/>
+            <class name="com.lazerycode.selenium.tests.vehicle.create.VehicleTypeFieldIT"/>
+        </classes>
+    </test>
+</suite>

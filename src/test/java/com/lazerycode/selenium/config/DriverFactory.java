@@ -1,5 +1,6 @@
 package com.lazerycode.selenium.config;
 
+import com.lazerycode.selenium.utils.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.openqa.selenium.Platform;
@@ -10,8 +11,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static com.lazerycode.selenium.config.DriverType.FIREFOX;
-import static com.lazerycode.selenium.config.DriverType.valueOf;
+import static com.lazerycode.selenium.config.DriverType.*;
 import static org.openqa.selenium.Proxy.ProxyType.MANUAL;
 import static org.openqa.selenium.remote.CapabilityType.PROXY;
 
@@ -32,7 +32,8 @@ public class DriverFactory {
     private final DriverType selectedDriverType;
 
     public DriverFactory() {
-        DriverType driverType = FIREFOX;
+        DriverType driverType = Constants.DEFAULT_WEB_TYPE;
+        System.setProperty("browser", driverType.toString());
         String browser = System.getProperty("browser", driverType.toString()).toUpperCase();
         try {
             driverType = valueOf(browser);

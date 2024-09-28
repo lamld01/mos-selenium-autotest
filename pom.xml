@@ -48,6 +48,7 @@
         <query.version>2.0.0-BETA3</query.version>
         <selenium.version>4.1.0</selenium.version>
         <testng.version>7.3.0</testng.version>
+        <screen-recorder.version>0.7.7.0</screen-recorder.version>
         <!--Plugin Versions-->
         <driver-binary-downloader-maven-plugin.version>1.0.18</driver-binary-downloader-maven-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -56,11 +57,11 @@
         <overwrite.binaries>false</overwrite.binaries>
         <read.timeout>30000</read.timeout>
         <connection.timeout>40000</connection.timeout>
-        <retry.attempts>4</retry.attempts>
-        <browser>firefox</browser>
+        <retry.attempts>1</retry.attempts>
+        <browser>chrome</browser>
         <threads>1</threads>
         <remote>false</remote>
-        <headless>true</headless>
+        <headless>false</headless>
         <seleniumGridURL/>
         <platform/>
         <browserVersion/>
@@ -69,11 +70,21 @@
         <proxyPort/>
         <proxyUsername/>
         <proxyPassword/>
-        <webdriver.chrome.driver>target/test-classes/selenium_standalone_binaries/windows/googlechrome/64bit/chromedriver.exe</webdriver.chrome.driver>
-        <webdriver.ie.driver>target/test-classes/selenium_standalone_binaries/windows/internetexplorer/64bit/IEDriverServer.exe</webdriver.ie.driver>
-        <webdriver.opera.driver>target/test-classes/selenium_standalone_binaries/windows/operachromium/64bit/operadriver.exe</webdriver.opera.driver>
-        <webdriver.gecko.driver>target/test-classes/selenium_standalone_binaries/windows/marionette/64bit/geckodriver.exe</webdriver.gecko.driver>
-        <webdriver.edge.driver>target/test-classes/selenium_standalone_binaries/windows/edge/64bit/msedgedriver.exe</webdriver.edge.driver>
+        <webdriver.chrome.driver>
+            target/test-classes/selenium_standalone_binaries/windows/googlechrome/64bit/chromedriver.exe
+        </webdriver.chrome.driver>
+        <webdriver.ie.driver>
+            target/test-classes/selenium_standalone_binaries/windows/internetexplorer/64bit/IEDriverServer.exe
+        </webdriver.ie.driver>
+        <webdriver.opera.driver>
+            target/test-classes/selenium_standalone_binaries/windows/operachromium/64bit/operadriver.exe
+        </webdriver.opera.driver>
+        <webdriver.gecko.driver>
+            target/test-classes/selenium_standalone_binaries/windows/marionette/64bit/geckodriver.exe
+        </webdriver.gecko.driver>
+        <webdriver.edge.driver>
+            target/test-classes/selenium_standalone_binaries/windows/edge/64bit/msedgedriver.exe
+        </webdriver.edge.driver>
     </properties>
 
     <dependencies>
@@ -120,12 +131,39 @@
             <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.stephenc.monte/monte-screen-recorder -->
+        <dependency>
+            <groupId>com.github.stephenc.monte</groupId>
+            <artifactId>monte-screen-recorder</artifactId>
+            <version>${screen-recorder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>5.0.9</version>
+        </dependency>
+
         <dependency>
             <groupId>com.lazerycode.selenium</groupId>
             <artifactId>query</artifactId>
             <version>${query.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -155,9 +193,13 @@
                         <artifactId>driver-binary-downloader-maven-plugin</artifactId>
                         <version>${driver-binary-downloader-maven-plugin.version}</version>
                         <configuration>
-                            <rootStandaloneServerDirectory>${project.basedir}/src/test/resources/selenium_standalone_binaries</rootStandaloneServerDirectory>
-                            <downloadedZipFileDirectory>${project.basedir}/src/test/resources/selenium_standalone_zips</downloadedZipFileDirectory>
-                            <customRepositoryMap>${project.basedir}/src/test/resources/RepositoryMap.xml</customRepositoryMap>
+                            <rootStandaloneServerDirectory>
+                                ${project.basedir}/src/test/resources/selenium_standalone_binaries
+                            </rootStandaloneServerDirectory>
+                            <downloadedZipFileDirectory>${project.basedir}/src/test/resources/selenium_standalone_zips
+                            </downloadedZipFileDirectory>
+                            <customRepositoryMap>${project.basedir}/src/test/resources/RepositoryMap.xml
+                            </customRepositoryMap>
                             <overwriteFilesThatExist>${overwrite.binaries}</overwriteFilesThatExist>
                             <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
                             <fileDownloadRetryAttempts>${retry.attempts}</fileDownloadRetryAttempts>
