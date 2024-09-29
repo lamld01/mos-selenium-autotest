@@ -70,9 +70,11 @@ public class ManHinhThemMoi extends BasePage {
         clickElement(nutBamThemMoi);
     }
     public String layLoiFE(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(loiFE.by()));
         return getValueFromElement(loiFE).toLowerCase().trim();
     }
     public String layLoiBE(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(loiBE.by()));
         return getValueFromElement(loiBE);
     }
 
