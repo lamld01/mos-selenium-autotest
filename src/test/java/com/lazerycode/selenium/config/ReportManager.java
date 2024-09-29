@@ -50,19 +50,31 @@ public class ReportManager {
   }
 
   public static void logInfo(String message) {
+    if(test == null) {
+      startTest("No name", "");
+    }
     test.info(message);
   }
 
   public static void logPass(String message) {
+    if(test == null) {
+      startTest("No name", "");
+    }
     test.pass(message);
   }
 
   public static void logFail(String message) {
+    if(test == null) {
+      startTest("No name", "");
+    }
     test.fail(message);
   }
 
   // Method to capture screenshots
   public static void captureScreenshot(String screenshotName) {
+    if(test == null) {
+      startTest("No name", "");
+    }
     try {
       WebDriver driver = DriverBase.getDriver();
       File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -93,6 +105,9 @@ public class ReportManager {
 
 
   public static void endTest() {
+    if(test == null) {
+      return;
+    }
     extent.flush();
   }
 }

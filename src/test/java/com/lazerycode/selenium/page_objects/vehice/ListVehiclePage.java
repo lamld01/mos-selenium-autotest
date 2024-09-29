@@ -47,15 +47,15 @@ public class ListVehiclePage extends BasePage {
       String prefix = "./td";
 
       // Use the getColumnValue method with the appropriate parameters
-      String driverName = getColumnValue(row, prefix, "", 1, -1, i + 1);
-      String phoneNumber = getColumnValue(row, prefix, "", 2, -1, i + 1);
-      String driverCode = getColumnValue(row, prefix, "", 3, -1, i + 1);
-      String vehicleType = getColumnValue(row, prefix, "", 4, -1, i + 1);
-      String licensePlate = getColumnValue(row, prefix, "", 5, -1, i + 1);
-      String status = getColumnValue(row, prefix, "", 6, -1, i + 1);
-      String creationDate = getColumnValue(row, prefix, "", 7, -1, i + 1);
-      String updateDate = getColumnValue(row, prefix, "", 8, -1, i + 1);
-      String description = getColumnValue(row, prefix, "", 9, -1, i + 1);
+      String driverName = getColumnValue(row, 1);
+      String phoneNumber = getColumnValue(row, 2);
+      String driverCode = getColumnValue(row, 3);
+      String vehicleType = getColumnValue(row, 4);
+      String licensePlate = getColumnValue(row, 5);
+      String status = getColumnValue(row, 6);
+      String creationDate = getColumnValue(row, 7);
+      String updateDate = getColumnValue(row, 8);
+      String description = getColumnValue(row, 9);
 
       // Create VehicleDriver object
       VehicleDriver driver = new VehicleDriver(driverName, phoneNumber, driverCode,

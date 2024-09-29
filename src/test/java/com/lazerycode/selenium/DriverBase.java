@@ -3,7 +3,7 @@ package com.lazerycode.selenium;
 import com.lazerycode.selenium.config.DriverFactory;
 import com.lazerycode.selenium.config.ReportManager;
 import com.lazerycode.selenium.listeners.ScreenshotListener;
-import com.lazerycode.selenium.page_objects.booking.ListBookingPage;
+import com.lazerycode.selenium.page_objects.booking.manHinhDanhSachBooking.ManHinhDanhSachBooking;
 import com.lazerycode.selenium.page_objects.login.LoginScreenPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
@@ -55,7 +55,7 @@ public class DriverBase {
             loginScreenPage.enterPasswordInput(password);
             loginScreenPage.clickLoginButton();
 
-            ListBookingPage defaultPageAfterLogin = new ListBookingPage();
+            ManHinhDanhSachBooking defaultPageAfterLogin = new ManHinhDanhSachBooking();
             defaultPageAfterLogin.waitForUrl();
 
             // Add cookies after login

@@ -1,6 +1,5 @@
 package com.lazerycode.selenium.page_objects;
 
-import com.lazerycode.selenium.DriverBase;
 import com.lazerycode.selenium.config.ReportManager;
 import com.lazerycode.selenium.util.Query;
 import com.lazerycode.selenium.utils.Constants;
@@ -9,13 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
-import static com.lazerycode.selenium.util.AssignDriver.initQueryObjects;
 
 public class BasePage {
 
@@ -44,10 +40,9 @@ public class BasePage {
     return webElement.getAttribute("value");
   }
 
-  protected String getColumnValue(WebElement row, String prefix, String suffix, int columnIndex, int id, int rowNumber) {
+  protected String getColumnValue(WebElement row, int columnIndex) {
     try {
-      // Tìm phần tử <td> tại vị trí chỉ định và lấy giá trị văn bản
-      return row.findElement(By.xpath(prefix +'[' + columnIndex + ']' + suffix)).getText().trim();
+      return row.findElement(By.xpath("./td[" + columnIndex + ']')).getText().trim();
     } catch (NoSuchElementException e) {
       return "";
     }
@@ -62,12 +57,17 @@ public class BasePage {
   }
 
   protected void inputValueToElement(Query query, String value) {
-    WebElement webElement = query.findWebElement();
-    webElement.sendKeys(Keys.CONTROL + "a");
-    webElement.sendKeys(Keys.DELETE);
-    webElement.sendKeys(value);
-    ReportManager.logInfo("Nhap giá trị: " + value + " trong phần tử có locator: " + query.by().toString());
-//    ReportManager.captureScreenshot(Helper.getTimeStamp());
+    try{
+      WebElement webElement = query.findWebElement();
+      webElement.sendKeys(Keys.CONTROL + "a");
+      webElement.sendKeys(Keys.DELETE);
+      webElement.sendKeys(value);
+      ReportManager.logInfo("Nhap giá trị: " + value + " trong phần tử có locator: " + query.by().toString());
+    } catch (Exception e) {
+      ReportManager.logFail("Không thể nhập giá trị trong phần tử có locator: " + query.by().toString());
+      ReportManager.captureScreenshot(Helper.getTimeStamp());
+      throw e;
+    }
   }
 
   public String getValueFromElement(WebElement webElement) {
@@ -75,42 +75,91 @@ public class BasePage {
   }
 
   protected String getValueFromElement(Query query) {
-    WebElement webElement = query.findWebElement();
-    return webElement.getText();
+    try{
+      WebElement webElement = query.findWebElement();
+      return webElement.getText();
+    } catch (Exception e){
+      ReportManager.logFail("Không thể get giá trị trong phần tử có locator: " + query.by().toString());
+      ReportManager.captureScreenshot(Helper.getTimeStamp());
+      throw e;
+    }
   }
 
   public void clickElement(Query query) {
-    WebElement webElement = query.findWebElement();
-    webElement.click();
-    ReportManager.logInfo("Click phần tử có locator: " + query.by().toString());
-//    ReportManager.captureScreenshot(Helper.getTimeStamp());
+    try{
+      WebElement webElement = query.findWebElement();
+      webElement.click();
+      ReportManager.logInfo("Click vào phần tử có locator: " + query.by().toString());
+    }catch (Exception e){
+      ReportManager.logFail("Không thể click vào phần tử có locator: " + query.by().toString());
+      ReportManager.captureScreenshot(Helper.getTimeStamp());
+      throw e;
+
+    }
   }
 
 
   public void selectElementFromDropdown(Query query, String value) {
-    WebElement webElement = query.findWebElement();
-    Select dropdown = new Select(webElement);
-    dropdown.selectByVisibleText(value);
-    ReportManager.logInfo("Chọn giá trị: " + value + " trong dropdown có locator: " + query.by().toString());
-//    ReportManager.captureScreenshot(Helper.getTimeStamp());
+    try{
+      WebElement webElement = query.findWebElement();
+      Select dropdown = new Select(webElement);
+      dropdown.selectByVisibleText(value);
+      ReportManager.logInfo("Chọn giá trị: " + value + " trong dropdown có locator: " + query.by().toString());
+    }catch (Exception e){
+      ReportManager.logFail("Không thể chọn giá trị: " + value + " trong dropdown có locator: " + query.by().toString());
+      ReportManager.captureScreenshot(Helper.getTimeStamp());
+      throw e;
+    }
+  }
 
+  public void selectElementFromDropdown(WebElement webElement, String value) {
+    try{
+      Select dropdown = new Select(webElement);
+      dropdown.selectByVisibleText(value);
+      ReportManager.logInfo("Chọn giá trị: " + value + " trong dropdown có locator: ");
+    }catch (Exception e){
+      ReportManager.logFail("Không thể chọn giá trị: " + value + " trong dropdown có locator: ");
+      ReportManager.captureScreenshot(Helper.getTimeStamp());
+      throw e;
+    }
   }
 
   public void selectElementFromDropdown(Query query, Integer index) {
-    WebElement webElement = query.findWebElement();
-    Select dropdown = new Select(webElement);
-    dropdown.selectByIndex(index);
-    ReportManager.logInfo("Chọn giá trị tại vị trí: " + index + " trong dropdown có locator: " + query.by().toString());
-//    ReportManager.captureScreenshot(Helper.getTimeStamp());
+    try{
+      WebElement webElement = query.findWebElement();
+      Select dropdown = new Select(webElement);
+      dropdown.selectByIndex(index);
+      ReportManager.logInfo("Chọn giá trị tại vị trí: " + index + " trong dropdown có locator: " + query.by().toString());
+    }catch (Exception e){
+      ReportManager.logFail("Không thể chọn giá trị tại vị trí: " + index + " trong dropdown có locator: " + query.by().toString());
+      ReportManager.captureScreenshot(Helper.getTimeStamp());
+      throw e;
+    }
+  }
 
+  public void selectElementFromDropdown(WebElement webElement, Integer index) {
+    try{
+      Select dropdown = new Select(webElement);
+      dropdown.selectByIndex(index);
+      ReportManager.logInfo("Chọn giá trị tại vị trí: " + index + " trong dropdown có locator: ");
+    }catch (Exception e){
+      ReportManager.logFail("Không thể chọn giá trị tại vị trí: " + index + " trong dropdown có locator: ");
+      ReportManager.captureScreenshot(Helper.getTimeStamp());
+      throw e;
+    }
   }
 
   public void clickCheckBox(Query query, boolean isChecked) {
-    WebElement checkbox = query.findWebElement();
-    if (checkbox.isSelected() != isChecked) {
-      checkbox.click(); // Click to check or uncheck the checkbox
+    try{
+      WebElement checkbox = query.findWebElement();
+      if (checkbox.isSelected() != isChecked) {
+        checkbox.click(); // Click to check or uncheck the checkbox
+      }
+      ReportManager.logInfo("Chọn checkbox: " + isChecked + " trong phần tử có locator: " + query.by().toString());
+    } catch (Exception e) {
+      ReportManager.logFail("Không thể chọn checkbox: " + isChecked + " trong phần tử có locator: " + query.by().toString());
+      ReportManager.captureScreenshot(Helper.getTimeStamp());
+      throw e;
     }
-    ReportManager.logInfo("Chọn checkbox: " + isChecked + " trong phần tử có locator: " + query.by().toString());
-//    ReportManager.captureScreenshot(Helper.getTimeStamp());
   }
 }

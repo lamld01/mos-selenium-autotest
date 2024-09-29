@@ -191,14 +191,16 @@
                     <plugin>
                         <groupId>com.lazerycode.selenium</groupId>
                         <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-                        <version>${driver-binary-downloader-maven-plugin.version}</version>
+                        <version>1.0.18</version> <!-- Specify the correct version -->
                         <configuration>
                             <rootStandaloneServerDirectory>
                                 ${project.basedir}/src/test/resources/selenium_standalone_binaries
                             </rootStandaloneServerDirectory>
-                            <downloadedZipFileDirectory>${project.basedir}/src/test/resources/selenium_standalone_zips
+                            <downloadedZipFileDirectory>
+                                ${project.basedir}/src/test/resources/selenium_standalone_zips
                             </downloadedZipFileDirectory>
-                            <customRepositoryMap>${project.basedir}/src/test/resources/RepositoryMap.xml
+                            <customRepositoryMap>
+                                ${project.basedir}/src/test/resources/RepositoryMap.xml
                             </customRepositoryMap>
                             <overwriteFilesThatExist>${overwrite.binaries}</overwriteFilesThatExist>
                             <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
@@ -218,6 +220,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -239,7 +242,7 @@
                                 <proxyPassword>${proxyPassword}</proxyPassword>
                                 <headless>${headless}</headless>
 
-                                <!--Set properties passed in by the driver binary downloader-->
+                                <!-- WebDriver properties -->
                                 <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
                                 <webdriver.ie.driver>${webdriver.ie.driver}</webdriver.ie.driver>
                                 <webdriver.opera.driver>${webdriver.opera.driver}</webdriver.opera.driver>
@@ -251,7 +254,6 @@
                             <execution>
                                 <goals>
                                     <goal>integration-test</goal>
-                                    <!--This goal makes the build fail if you have test failures-->
                                     <goal>verify</goal>
                                 </goals>
                             </execution>
@@ -261,4 +263,5 @@
             </build>
         </profile>
     </profiles>
+
 </project>

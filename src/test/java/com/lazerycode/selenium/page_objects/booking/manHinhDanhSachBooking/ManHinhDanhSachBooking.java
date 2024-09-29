@@ -1,4 +1,4 @@
-package com.lazerycode.selenium.page_objects.booking;
+package com.lazerycode.selenium.page_objects.booking.manHinhDanhSachBooking;
 
 import com.lazerycode.selenium.DriverBase;
 import com.lazerycode.selenium.helpers.CustomExpectedConditions;
@@ -17,12 +17,13 @@ import java.util.List;
 
 import static com.lazerycode.selenium.util.AssignDriver.initQueryObjects;
 
-public class ListBookingPage extends BasePage {
+public class ManHinhDanhSachBooking extends BasePage {
   public static final String PAGE_URL = Constants.SMARTGATE_WIINVENT_TV + "/danhsachtokhai";
   private final Query bookingRow = new Query().defaultLocator(By.cssSelector("tbody.divide-y > tr"));
+  private final Query nutThemMoi = new Query().defaultLocator(By.xpath("//*[@id=\"root\"]/div[1]/div[2]/main/div/div/div[1]/a/button"));
   private final WebDriverWait wait;
 
-  public ListBookingPage() throws Exception {
+  public ManHinhDanhSachBooking() throws Exception {
     initQueryObjects(this, DriverBase.getDriver());
     this.wait = new WebDriverWait(DriverBase.getDriver(), Duration.ofSeconds(15), Duration.ofMillis(5000));
   }
@@ -35,22 +36,17 @@ public class ListBookingPage extends BasePage {
 
     for (int i = 0; i < rows.size(); i++) {
       WebElement row = rows.get(i);
-      String prefix = "./td";
-      // Sử dụng hàm getColumnValue với chỉ số cột, id booking và số hàng
-      int id = Integer.parseInt(getColumnValue(row, prefix, "", 1, -1, i + 1)); // -1 cho id tạm thời
-      String bookingNumber = getColumnValue(row, prefix, "", 2, id, i + 1);
-      String timestamp = getColumnValue(row, prefix, "", 3, id, i + 1);
-      String vehicleId = getColumnValue(row, prefix, "", 4, id, i + 1);
-      String moocId = getColumnValue(row, prefix, "", 5, id, i + 1);
-      String transferId = getColumnValue(row, prefix, "", 6, id, i + 1);
-      String companyName = getColumnValue(row, prefix, "", 7, id, i + 1);
-      String inOut = getColumnValue(row, prefix, "", 8, id, i + 1);
+      int id = Integer.parseInt(getColumnValue(row, 1));
+      String bookingNumber = getColumnValue(row, 2);
+      String timestamp = getColumnValue(row, 3);
+      String vehicleId = getColumnValue(row, 4);
+      String moocId = getColumnValue(row, 5);
+      String transferId = getColumnValue(row, 6);
+      String companyName = getColumnValue(row, 7);
+      String inOut = getColumnValue(row, 8);
+      String status = getColumnValue(row, 9);
+      String paymentStatus = getColumnValue(row, 10);
 
-      // Lấy giá trị status và paymentStatus từ <span> trong các cột tương ứng
-      String status = getColumnValue(row, prefix, "/span", 9, id, i + 1);
-      String paymentStatus = getColumnValue(row, prefix, "/span", 10, id, i + 1);
-
-      // Tạo đối tượng Booking và thêm vào danh sách
       Booking booking = new Booking(id, bookingNumber, timestamp, vehicleId, moocId,
           transferId, companyName, inOut, status, paymentStatus);
       bookings.add(booking);
@@ -70,6 +66,10 @@ public class ListBookingPage extends BasePage {
     return currentUrl.contains(subsUrl);
   }
 
+  public void nhanNutThemMoi() {
+    wait.until(ExpectedConditions.elementToBeClickable(nutThemMoi.by()));
+    clickElement(nutThemMoi);
+  }
   public void waitForUrl() {
     wait.until(ExpectedConditions.urlContains(PAGE_URL));
   }

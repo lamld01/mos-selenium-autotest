@@ -3,7 +3,7 @@ package com.lazerycode.selenium.tests.login;
 import com.lazerycode.selenium.DriverBase;
 import com.lazerycode.selenium.config.RecordVideo;
 import com.lazerycode.selenium.config.ReportManager;
-import com.lazerycode.selenium.page_objects.booking.ListBookingPage;
+import com.lazerycode.selenium.page_objects.booking.manHinhDanhSachBooking.ManHinhDanhSachBooking;
 import com.lazerycode.selenium.page_objects.login.LoginScreenPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
@@ -40,11 +40,11 @@ public class LoginScreenIT extends DriverBase {
       ReportManager.logPass("Nhap dung password: " + password);
     }
 
-    ListBookingPage listBookingPage = new ListBookingPage();
+    ManHinhDanhSachBooking manHinhDanhSachBooking = new ManHinhDanhSachBooking();
     loginScreenPage.clickLoginButton();
     RecordVideo.stopRecord();
 
-    assertThat(listBookingPage.pageUrlContain("danhsachtokhai")).isTrue();
+    assertThat(manHinhDanhSachBooking.pageUrlContain("danhsachtokhai")).isTrue();
   }
 
 }
