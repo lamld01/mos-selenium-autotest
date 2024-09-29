@@ -48,8 +48,13 @@ public class DriverNameFieldIT extends DriverBase {
     ReportManager.startTest("Test driver name too long", "Verifying that the error message is displayed when the driver name exceeds maximum length.");
 
     // Enter a driver name that's too long
-    fillCommonVehicleDetails();
-    String longDriverName = faker.lorem().characters(51); // Generate a name longer than 50 characters
+    createVehiclePage.enterDriverName(faker.name().fullName());
+    createVehiclePage.enterDriverCode(faker.code().asin());
+    createVehiclePage.enterPhoneNumber("0" + faker.phoneNumber().subscriberNumber(8));
+    createVehiclePage.selectVehicleType(1);
+    createVehiclePage.enterLicensePlate(faker.code().ean8());
+    createVehiclePage.enterNote(faker.lorem().sentence());
+    createVehiclePage.setStatusCheckbox(true);    String longDriverName = faker.lorem().characters(51); // Generate a name longer than 50 characters
     ReportManager.captureScreenshot( "beforeInput");
     createVehiclePage.clickAddBtn();
     ReportManager.captureScreenshot( "afterClick");
@@ -67,8 +72,13 @@ public class DriverNameFieldIT extends DriverBase {
     ReportManager.startTest("Test driver name with special characters", "Verifying that the error message is displayed when the driver name contains special characters.");
 
     // Enter a driver name with special characters
-    fillCommonVehicleDetails();
-    createVehiclePage.enterDriverName(faker.name().fullName() + "#@!$%^&@");
+    createVehiclePage.enterDriverName(faker.name().fullName());
+    createVehiclePage.enterDriverCode(faker.code().asin());
+    createVehiclePage.enterPhoneNumber("0" + faker.phoneNumber().subscriberNumber(8));
+    createVehiclePage.selectVehicleType(1);
+    createVehiclePage.enterLicensePlate(faker.code().ean8());
+    createVehiclePage.enterNote(faker.lorem().sentence());
+    createVehiclePage.setStatusCheckbox(true);    createVehiclePage.enterDriverName(faker.name().fullName() + "#@!$%^&@");
     ReportManager.captureScreenshot( "beforeInput");
     createVehiclePage.clickAddBtn();
     ReportManager.captureScreenshot( "afterClick");

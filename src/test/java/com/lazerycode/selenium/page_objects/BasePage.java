@@ -57,6 +57,7 @@ public class BasePage {
     webElement.sendKeys(Keys.CONTROL + "a");
     webElement.sendKeys(Keys.DELETE);
     webElement.sendKeys(value);
+    waitAction();
     ReportManager.logInfo("-------Input value: " + value);
   }
 
@@ -75,7 +76,7 @@ public class BasePage {
 
   protected String getValueFromElement(Query query) {
     WebElement webElement = query.findWebElement();
-    return webElement.getText();
+    return webElement.getAttribute("value");
   }
 
   public void clickElement(Query query) {
