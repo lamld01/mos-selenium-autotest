@@ -5,6 +5,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.lazerycode.selenium.DriverBase;
+import com.lazerycode.selenium.utils.Helper;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -45,7 +46,7 @@ public class ReportManager {
 
   public static void startTest(String testName, String testDescription) {
     // Add timestamp to test name
-    test = extent.createTest(testName + "/" + getTimeStamp(), testDescription);
+    test = extent.createTest(testName + "/" + Helper.getTimeStamp(), testDescription);
   }
 
   public static void logInfo(String message) {
@@ -77,7 +78,7 @@ public class ReportManager {
       }
 
       // Save screenshot with a timestamp inside the test-specific folder
-      String filePath = testFolder + "/" + getTimeStamp() + "-" + screenshotName + ".png";
+      String filePath = testFolder + "/" + Helper.getTimeStamp() + "-" + screenshotName + ".png";
       FileUtils.copyFile(screenshot, new File(filePath));
 
       String screenshotBase64 = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
@@ -89,10 +90,7 @@ public class ReportManager {
     }
   }
 
-  // Utility method to get current timestamp
-  private static String getTimeStamp() {
-    return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-  }
+
 
   public static void endTest() {
     extent.flush();

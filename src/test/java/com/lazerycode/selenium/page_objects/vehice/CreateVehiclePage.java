@@ -43,7 +43,7 @@ public class CreateVehiclePage extends BasePage {
   // Click the Add button
   public void clickAddBtn() {
     wait.until(ExpectedConditions.presenceOfElementLocated(addBtn.by()));
-    addBtn.findWebElement().click();
+    clickElement(addBtn);
     waitAction(1000);
   }
 
@@ -64,8 +64,7 @@ public class CreateVehiclePage extends BasePage {
   // Fill the driver's code
   public void enterDriverCode(String driverCode) {
     wait.until(ExpectedConditions.visibilityOfElementLocated(driverCodeInput.by()));
-    WebElement codeField = driverCodeInput.findWebElement();
-    inputValueToElement(codeField, driverCode);
+    inputValueToElement(driverCodeInput, driverCode);
     waitAction();
   }
 
@@ -78,8 +77,7 @@ public class CreateVehiclePage extends BasePage {
   // Fill the phone number
   public void enterPhoneNumber(String phoneNumber) {
     wait.until(ExpectedConditions.visibilityOfElementLocated(phoneNumberInput.by()));
-    WebElement phoneField = phoneNumberInput.findWebElement();
-    inputValueToElement(phoneField, phoneNumber);
+    inputValueToElement(phoneNumberInput, phoneNumber);
     waitAction();
   }
 
