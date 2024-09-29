@@ -76,8 +76,7 @@ public class BasePage {
 
   protected String getValueFromElement(Query query) {
     WebElement webElement = query.findWebElement();
-    String value = webElement.getAttribute("value");
-    return value == null ? "" : value;
+    return webElement.getText();
   }
 
   public void clickElement(Query query) {
