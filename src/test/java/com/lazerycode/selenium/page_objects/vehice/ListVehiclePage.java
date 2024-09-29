@@ -19,6 +19,7 @@ import static com.lazerycode.selenium.util.AssignDriver.initQueryObjects;
 
 public class ListVehiclePage extends BasePage {
   public static final String PAGE_URL = Constants.SMARTGATE_WIINVENT_TV + "/phuongtienvalaixe";
+  private final Query title = new Query().defaultLocator(By.xpath("//h3[text()='Phương tiện và lái xe']"));
   private final Query toastText = new Query().defaultLocator(By.className("Toastify"));
   private final Query driverRow = new Query().defaultLocator(By.xpath("/html/body/div[1]/div[1]/div[2]/main/div/div/div[2]/div/div[1]/div/div/table/tbody/tr"));
   private final Query addBtn = new Query().defaultLocator(By.xpath("/html/body/div[1]/div[1]/div[2]/main/div/div/div[1]/button"));
@@ -27,6 +28,7 @@ public class ListVehiclePage extends BasePage {
   public ListVehiclePage() throws Exception {
     initQueryObjects(this, DriverBase.getDriver());
     this.wait = new WebDriverWait(DriverBase.getDriver(), Duration.ofSeconds(15), Duration.ofMillis(5000));
+    waitForTitle();
   }
 
   public void clickAddBtn() {
@@ -71,5 +73,8 @@ public class ListVehiclePage extends BasePage {
 
   public void waitForUrl() {
     wait.until(ExpectedConditions.urlContains(PAGE_URL));
+  }
+  public void waitForTitle() {
+    wait.until(ExpectedConditions.presenceOfElementLocated(title.by()));
   }
 }
