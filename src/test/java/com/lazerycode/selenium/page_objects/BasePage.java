@@ -1,5 +1,6 @@
 package com.lazerycode.selenium.page_objects;
 
+import com.lazerycode.selenium.DriverBase;
 import com.lazerycode.selenium.config.ReportManager;
 import com.lazerycode.selenium.util.Query;
 import com.lazerycode.selenium.utils.Constants;
@@ -8,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -75,14 +77,19 @@ public class BasePage {
   }
 
   protected String getValueFromElement(Query query) {
-    try{
+    String value;
+    try {
       WebElement webElement = query.findWebElement();
-      return webElement.getText();
-    } catch (Exception e){
-      ReportManager.logFail("Không thể get giá trị trong phần tử có locator: " + query.by().toString());
+      value = webElement.getAttribute("value");
+      if (value == null) {
+        return webElement.getText();
+      }
+    } catch (Exception e) {
+      ReportManager.logFail("Không thể lay giá trị trong phần tử có locator: " + query.by().toString());
       ReportManager.captureScreenshot(Helper.getTimeStamp());
       throw e;
     }
+    return value;
   }
 
   public void clickElement(Query query) {
@@ -161,5 +168,46 @@ public class BasePage {
       ReportManager.captureScreenshot(Helper.getTimeStamp());
       throw e;
     }
+  }
+
+  public String layThongBaoLoiFe() {
+    try{
+      WebDriverWait wait = new WebDriverWait(DriverBase.getDriver(), Duration.ofSeconds(10), Duration.ofMillis(2000));
+      String xpath = "";
+      WebElement webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(@class, 'text-xs') and contains(@class, 'text-red-600') and contains(@class, 'mt-0')]")));
+      return getValueFromElement(webElement);
+    }catch (Exception e){
+      ReportManager.logFail("Không thể lay thong bao loi fe ");
+    }
+    return "";
+  }
+
+  public boolean soSanhLoiFe(String loi) {
+    try {
+      return layThongBaoLoiFe().equalsIgnoreCase(loi);
+    } catch (Exception e) {
+      ReportManager.logFail("Không thể so sanh loi fe ");
+    }
+    return false;
+  }
+
+  public String layThongBaoLoiBackend() {
+    try {
+      WebDriverWait wait = new WebDriverWait(DriverBase.getDriver(), Duration.ofSeconds(10), Duration.ofMillis(2000));
+      WebElement webElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'Toastify__toast') and contains(@class, 'Toastify__toast-theme--light')]")));
+      return getValueFromElement(webElement);
+    }catch (Exception e){
+      ReportManager.logFail("Không thể lay thong bao loi backend ");
+    }
+    return "";
+  }
+
+  public boolean soSanhLoiBackend(String loi) {
+    try {
+      return layThongBaoLoiBackend().equalsIgnoreCase(loi);
+    } catch (Exception e) {
+      ReportManager.logFail("Không thể so sanh loi backend ");
+    }
+    return false;
   }
 }

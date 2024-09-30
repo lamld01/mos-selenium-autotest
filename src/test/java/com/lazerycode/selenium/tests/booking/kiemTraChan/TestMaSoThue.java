@@ -1,4 +1,4 @@
-package com.lazerycode.selenium.tests.booking.taoMoi;
+package com.lazerycode.selenium.tests.booking.kiemTraChan;
 
 import com.github.javafaker.Faker;
 import com.lazerycode.selenium.DriverBase;
@@ -8,11 +8,17 @@ import com.lazerycode.selenium.page_objects.booking.manHinhDanhSachBooking.taoTh
 import com.lazerycode.selenium.page_objects.booking.manHinhDanhSachBooking.taoThongTinChung.hangHoa.ThemHangHoa;
 import com.lazerycode.selenium.page_objects.booking.manHinhDanhSachBooking.taoThongTinChung.phuongTien.ThemPhuongTien;
 import com.lazerycode.selenium.page_objects.booking.manHinhDanhSachBooking.taoThongTinChung.phuongTien.xeSangTai.XeSangTai;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Objects;
 
 public class TestMaSoThue extends DriverBase {
   private final Faker faker = new Faker();
+  private WebDriver driver;
   private ManHinhDanhSachBooking manHinhDanhSachBooking;
   private TaoThongTinChung manHinhTaoThongTinChung;
   private ThemPhuongTien manHinhThemPhuongTien;
@@ -20,7 +26,7 @@ public class TestMaSoThue extends DriverBase {
   private ThemHangHoa manHinhTaoThongTinHangHoa;
   @BeforeMethod
   public void setup() throws Exception {
-    getDriverLogin(ManHinhDanhSachBooking.PAGE_URL);
+    driver = getDriverLogin(ManHinhDanhSachBooking.PAGE_URL);
     manHinhDanhSachBooking = new ManHinhDanhSachBooking();
     manHinhTaoThongTinChung = new TaoThongTinChung();
     manHinhThemPhuongTien = new ThemPhuongTien();
@@ -28,22 +34,59 @@ public class TestMaSoThue extends DriverBase {
     manHinhTaoThongTinHangHoa = new ThemHangHoa();
   }
 
-  @Test
-  public void maSoThueDeTrong() {
-    ReportManager.startTest("Test ma so thue de trong", "ma so thue de trong");
+  @DataProvider(name = "maSoThueThongBaoLoi")
+  public Object[][] duLieuTestThongBaoLoi() {
+    return new Object[][] {
+        {"Test de trong ma so thue","Test de trong ma so thue", "", "Vui lòng nhập dữ liệu", "FE"}
+    };
+  }
+
+  @DataProvider(name = "maSoThueKhongChoNhap")
+  public Object[][] duLieuTestKhongChoNhap() {
+    return new Object[][] {
+        {"Test de trong ma so thue","Test de trong ma so thue", "#@#@$@#$"},
+        {"Test de trong ma so thue","Test de trong ma so thue", "weq"}
+    };
+  }
+  @Test(dataProvider = "maSoThueThongBaoLoi")
+  public void kiemTraThongBaoLoi(String tenTestCase, String moTa, String maSoThue, String thongBaoLoi, String loiPhia) {
+    boolean caseDung = true;
+    ReportManager.startTest(tenTestCase, moTa);
+    driver.navigate().refresh();
+    manHinhDanhSachBooking.nhanNutThemMoi();
+
+    taoThongTinChung();
+    manHinhTaoThongTinChung.nhapMaSoThue(maSoThue);
+    manHinhTaoThongTinChung.chonTiepTheo();
+    String loi;
+    if(Objects.equals(loiPhia, "FE")){
+      loi = manHinhTaoThongTinChung.layThongBaoLoiFe();
+    }else{
+      loi = manHinhTaoThongTinChung.layThongBaoLoiBackend();
+    }
+    if(!thongBaoLoi.equals(loi)){
+      caseDung = false;
+      ReportManager.logFail("Nội dung không chính xác");
+      ReportManager.captureScreenshot("Sau khi nhan nut");
+    }
+    Assert.assertTrue(caseDung);
+    ReportManager.endTest();
+  }
+
+  @Test(dataProvider = "maSoThueKhongChoNhap")
+  public void kiemTraKhongChoNhap(String tenTestCase, String moTa, String maSoThue) {
+    boolean caseDung = true;
+    ReportManager.startTest(tenTestCase, moTa);
     manHinhDanhSachBooking.nhanNutThemMoi();
     taoThongTinChung();
-    ReportManager.captureScreenshot("Sau khi tao thong tin chung");
-    manHinhTaoThongTinChung.chonThemPhuongTien();
-    taoThongTinXeVanChuyen();
-    ReportManager.captureScreenshot("Sau khi tao thong tin xe van chuyen");
-    taoThongTinXeSangTai(0);
-    ReportManager.captureScreenshot("Sau khi tao thong tin xe sang tai");
-    manHinhThemPhuongTien.bamLuuThongTinXe();
-    ReportManager.captureScreenshot("Sau khi bam luu va them moi");
-
-    manHinhTaoThongTinChung.chonThemHangHoa();
-    taoThongTinHangHoa();
+    manHinhTaoThongTinChung.nhapMaSoThue(maSoThue);
+    String giaTriMaSoThueHienTai = manHinhTaoThongTinChung.layMaSoThue();
+    if(!giaTriMaSoThueHienTai.isEmpty()) {
+      caseDung = false;
+      ReportManager.logFail("Ma so thue khong cho nhap");
+      ReportManager.captureScreenshot("Sau khi nhap ma so thue");
+    }
+    Assert.assertTrue(caseDung);
     ReportManager.endTest();
   }
 

@@ -45,6 +45,11 @@ public class TaoThongTinChung extends BasePage {
     inputValueToElement(oNhapMaSoThue, maSoThue);
   }
 
+  public String layMaSoThue() {
+    wait.until(ExpectedConditions.presenceOfElementLocated(oNhapMaSoThue.by()));
+    return getValueFromElement(oNhapMaSoThue);
+  }
+
   public void nhapTenToChucCaNhan(String tenToChucCaNhan) {
     wait.until(ExpectedConditions.presenceOfElementLocated(oNhapTenToChucCaNhan.by()));
     inputValueToElement(oNhapTenToChucCaNhan, tenToChucCaNhan);
@@ -121,7 +126,7 @@ public class TaoThongTinChung extends BasePage {
   }
 
   public void chonTiepTheo() {
-    wait.until(ExpectedConditions.presenceOfElementLocated(nutTiepTheoButton.by()));
+    wait.until(ExpectedConditions.elementToBeClickable(nutTiepTheoButton.by()));
     clickElement(nutTiepTheoButton);
   }
 
