@@ -80,6 +80,42 @@ public class KiemTraDuLieuHopLe extends DriverBase {
     Assert.assertTrue(caseDung);
     ReportManager.endTest();
   }
+  @DataProvider
+  public String[][] duLieuKiemTraThongBaoLoiMK(){
+    Faker faker = new Faker();
+    return new String[][]{
+
+            {"Nhập mật khẩu = null","Mật khẩu không được để trống","","FE","Vui lòng nhập dữ liệu"},
+            {"Nhập mật khẩu không có kí tự số","Mật khẩu phải chứa cả chữ và số", faker.lorem().characters(6,10),"FE","Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
+            {"Nhập mật khẩu không có kí tự chữ","Mật khẩu phải chứa cả chữ và số",faker.phoneNumber().subscriberNumber(10),"FE","Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
+            {"Nhập mật khẩu nhỏ hơn số kí tự tối thiểu","Mật khẩu tối thiểu 6 kí tự bao gồm cả chữ và số",faker.internet().password(1,5),"FE","Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
+            {"Nhập mật khẩu  không chứa khoảng trắng","Mật khẩu không được chứa kí tự space","lananh1511 1511lananh","FE","Mật khẩu không bao gồm khaongr trắng"}
+    };
+
+  }
+  @Test(dataProvider = "duLieuKiemTraThongBaoLoiMK")
+  public void kiemTraThongBaoLoiMatKhau(String tenTestCase, String moTa, String duLieuTest,String loiPhia, String noiDungLoi ){
+    boolean caseDung = true;
+    driver.navigate().to(ManHinhDangKy.PAGE_URL);
+    ReportManager.startTest(tenTestCase,moTa);
+    taoDuLieuDung();
+    manHinhDangKy.nhapMatKhau(duLieuTest);
+    manHinhDangKy.clickNutDangKy();
+    String loi;
+    if(loiPhia =="BE"){
+      loi = manHinhDangKy.layThongBaoLoiBackend();
+    }else{
+      loi = manHinhDangKy.layThongBaoLoiFe();
+    }
+    if(loi != noiDungLoi){
+      ReportManager.logFail("Thông báo không chính xác ");
+      ReportManager.captureScreenshot(tenTestCase);
+      caseDung = false;
+    }
+    Assert.assertTrue(caseDung);
+    ReportManager.endTest();
+
+  }
 
   public void taoDuLieuDung() {
     Faker faker = new Faker();

@@ -18,7 +18,7 @@ public class ManHinhDangKy extends BasePage {
   private final Query oMatKhau = new Query().defaultLocator(By.xpath("//div[@class='flex items-center']/input[@id='password']"));
   private final Query oMaSoThue = new Query().defaultLocator(By.xpath("//div[@class='relative']/input[@id='taxcode']"));
   private final Query oTenDoanhNghiep = new Query().defaultLocator(By.xpath("//div[@class='relative']/input[@id='businessName']"));
-  private final Query oHoTen = new Query().defaultLocator(By.xpath("//div[@class='relative']/input[@id='businessName']"));
+  private final Query oHoTen = new Query().defaultLocator(By.xpath("//div[@class='relative']/input[@id='fullname']"));
   private final Query oDiaChi = new Query().defaultLocator(By.xpath("//div[@class='relative']/input[@id='address']"));
   private final Query oSoDienThoaiDoanhNghiep = new Query().defaultLocator(By.xpath("//div[@class='relative']/input[@id='businessPhoneNumber']"));
   private final Query oSoDienThoaiCaNhan = new Query().defaultLocator(By.xpath("//div[@class='relative']/input[@id='phoneNumber']"));
