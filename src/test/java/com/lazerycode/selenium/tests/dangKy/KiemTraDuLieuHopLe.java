@@ -64,6 +64,7 @@ public class KiemTraDuLieuHopLe extends DriverBase {
         {"Nhap gia tri dac biet khac @ va .", "Khong duoc nhap gia tri dac biet khac @ va .", "lananh123_@gmail.com", "lananh123@gmail.com"}
     };
   }
+
   @Test(dataProvider = "duLieuTestChanNhapEmail")
   public void kiemTraChanNhapTruongEmail(String tenTestCase, String moTa, String duLieuTest, String giaTriMongMuon) {
     boolean caseDung = true;
@@ -80,41 +81,275 @@ public class KiemTraDuLieuHopLe extends DriverBase {
     Assert.assertTrue(caseDung);
     ReportManager.endTest();
   }
+
   @DataProvider
-  public String[][] duLieuKiemTraThongBaoLoiMK(){
+  public String[][] duLieuKiemTraThongBaoLoiMK() {
     Faker faker = new Faker();
     return new String[][]{
-
-            {"Nhập mật khẩu = null","Mật khẩu không được để trống","","FE","Vui lòng nhập dữ liệu"},
-            {"Nhập mật khẩu không có kí tự số","Mật khẩu phải chứa cả chữ và số", faker.lorem().characters(6,10),"FE","Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
-            {"Nhập mật khẩu không có kí tự chữ","Mật khẩu phải chứa cả chữ và số",faker.phoneNumber().subscriberNumber(10),"FE","Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
-            {"Nhập mật khẩu nhỏ hơn số kí tự tối thiểu","Mật khẩu tối thiểu 6 kí tự bao gồm cả chữ và số",faker.internet().password(1,5),"FE","Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
-            {"Nhập mật khẩu  không chứa khoảng trắng","Mật khẩu không được chứa kí tự space","lananh1511 1511lananh","FE","Mật khẩu không bao gồm khaongr trắng"}
+        {"Nhập mật khẩu = null", "Mật khẩu không được để trống", "", "FE", "Vui lòng nhập dữ liệu"},
+        {"Nhập mật khẩu không có kí tự số", "Mật khẩu phải chứa cả chữ và số", faker.lorem().characters(6, 10), "FE", "Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
+        {"Nhập mật khẩu không có kí tự chữ", "Mật khẩu phải chứa cả chữ và số", faker.phoneNumber().subscriberNumber(10), "FE", "Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
+        {"Nhập mật khẩu nhỏ hơn số kí tự tối thiểu", "Mật khẩu tối thiểu 6 kí tự bao gồm cả chữ và số", faker.internet().password(1, 5), "FE", "Tối thiểu 6 kí tự và bao gồm cả chữ và số"},
+        {"Nhập mật khẩu  không chứa khoảng trắng", "Mật khẩu không được chứa kí tự space", "lananh1511 1511lananh", "FE", "Mật khẩu không bao gồm khaongr trắng"}
     };
 
   }
+
   @Test(dataProvider = "duLieuKiemTraThongBaoLoiMK")
-  public void kiemTraThongBaoLoiMatKhau(String tenTestCase, String moTa, String duLieuTest,String loiPhia, String noiDungLoi ){
+  public void kiemTraThongBaoLoiMatKhau(String tenTestCase, String moTa, String duLieuTest, String loiPhia, String noiDungLoi) {
     boolean caseDung = true;
-    driver.navigate().to(ManHinhDangKy.PAGE_URL);
-    ReportManager.startTest(tenTestCase,moTa);
-    taoDuLieuDung();
-    manHinhDangKy.nhapMatKhau(duLieuTest);
-    manHinhDangKy.clickNutDangKy();
-    String loi;
-    if(loiPhia =="BE"){
-      loi = manHinhDangKy.layThongBaoLoiBackend();
-    }else{
-      loi = manHinhDangKy.layThongBaoLoiFe();
-    }
-    if(loi != noiDungLoi){
-      ReportManager.logFail("Thông báo không chính xác ");
-      ReportManager.captureScreenshot(tenTestCase);
+    try {
+      driver.navigate().to(ManHinhDangKy.PAGE_URL);
+      ReportManager.startTest(tenTestCase, moTa);
+      taoDuLieuDung();
+      manHinhDangKy.nhapMatKhau(duLieuTest);
+      manHinhDangKy.clickNutDangKy();
+      String loi;
+      if (Objects.equals(loiPhia, "BE")) {
+        loi = manHinhDangKy.layThongBaoLoiBackend();
+      } else {
+        loi = manHinhDangKy.layThongBaoLoiFe();
+      }
+      if (!Objects.equals(loi, noiDungLoi)) {
+        ReportManager.logFail("Thông báo không chính xác ");
+        ReportManager.captureScreenshot(tenTestCase);
+        caseDung = false;
+      }
+    } catch (Exception e) {
+      ReportManager.logFail(e.getMessage());
+      ReportManager.captureScreenshot("Loi he thong");
       caseDung = false;
     }
     Assert.assertTrue(caseDung);
     ReportManager.endTest();
+  }
 
+  @DataProvider
+  public String[][] duLieuKiemTraThongBaoLoiMaSoThue() {
+    Faker faker = new Faker();
+    return new String[][]{
+        //TODO nhap test case
+    };
+
+  }
+
+  @Test(dataProvider = "duLieuKiemTraThongBaoLoiMaSoThue")
+  public void kiemTraThongBaoLoiMaSoThue(String tenTestCase, String moTa, String duLieuTest, String loiPhia, String noiDungLoi) {
+    boolean caseDung = true;
+    try {
+      driver.navigate().to(ManHinhDangKy.PAGE_URL);
+      ReportManager.startTest(tenTestCase, moTa);
+      taoDuLieuDung();
+      manHinhDangKy.nhapMaSoThue(duLieuTest);
+      manHinhDangKy.clickNutDangKy();
+      String loi;
+      if (Objects.equals(loiPhia, "BE")) {
+        loi = manHinhDangKy.layThongBaoLoiBackend();
+      } else {
+        loi = manHinhDangKy.layThongBaoLoiFe();
+      }
+      if (!Objects.equals(loi, noiDungLoi)) {
+        ReportManager.logFail("Thông báo không chính xác ");
+        ReportManager.captureScreenshot(tenTestCase);
+        caseDung = false;
+      }
+    } catch (Exception e) {
+      ReportManager.logFail(e.getMessage());
+      ReportManager.captureScreenshot("Loi he thong");
+      caseDung = false;
+    }
+    Assert.assertTrue(caseDung);
+    ReportManager.endTest();
+  }
+
+  @DataProvider
+  public String[][] duLieuKiemTraThongBaoLoiTenDoanhNghiep() {
+    Faker faker = new Faker();
+    return new String[][]{
+        //TODO nhap test case
+    };
+
+  }
+
+  @Test(dataProvider = "duLieuKiemTraThongBaoLoiTenDoanhNghiep")
+  public void kiemTraThongBaoLoiTenDoanhNghiep(String tenTestCase, String moTa, String duLieuTest, String loiPhia, String noiDungLoi) {
+    boolean caseDung = true;
+    try {
+      driver.navigate().to(ManHinhDangKy.PAGE_URL);
+      ReportManager.startTest(tenTestCase, moTa);
+      taoDuLieuDung();
+      manHinhDangKy.nhapTenDoanhNghiep(duLieuTest);
+      manHinhDangKy.clickNutDangKy();
+      String loi;
+      if (Objects.equals(loiPhia, "BE")) {
+        loi = manHinhDangKy.layThongBaoLoiBackend();
+      } else {
+        loi = manHinhDangKy.layThongBaoLoiFe();
+      }
+      if (!Objects.equals(loi, noiDungLoi)) {
+        ReportManager.logFail("Thông báo không chính xác ");
+        ReportManager.captureScreenshot(tenTestCase);
+        caseDung = false;
+      }
+    } catch (Exception e) {
+      ReportManager.logFail(e.getMessage());
+      ReportManager.captureScreenshot("Loi he thong");
+      caseDung = false;
+    }
+    Assert.assertTrue(caseDung);
+    ReportManager.endTest();
+  }
+
+  @DataProvider
+  public String[][] duLieuKiemTraThongBaoLoiHoTen() {
+    Faker faker = new Faker();
+    return new String[][]{
+        //TODO nhap test case
+    };
+
+  }
+
+  @Test(dataProvider = "duLieuKiemTraThongBaoLoiHoTen")
+  public void kiemTraThongBaoLoiHoTen(String tenTestCase, String moTa, String duLieuTest, String loiPhia, String noiDungLoi) {
+    boolean caseDung = true;
+    try {
+      driver.navigate().to(ManHinhDangKy.PAGE_URL);
+      ReportManager.startTest(tenTestCase, moTa);
+      taoDuLieuDung();
+      manHinhDangKy.nhapTenDoanhNghiep(duLieuTest);
+      manHinhDangKy.clickNutDangKy();
+      String loi;
+      if (Objects.equals(loiPhia, "BE")) {
+        loi = manHinhDangKy.layThongBaoLoiBackend();
+      } else {
+        loi = manHinhDangKy.layThongBaoLoiFe();
+      }
+      if (!Objects.equals(loi, noiDungLoi)) {
+        ReportManager.logFail("Thông báo không chính xác ");
+        ReportManager.captureScreenshot(tenTestCase);
+        caseDung = false;
+      }
+    } catch (Exception e) {
+      ReportManager.logFail(e.getMessage());
+      ReportManager.captureScreenshot("Loi he thong");
+      caseDung = false;
+    }
+    Assert.assertTrue(caseDung);
+    ReportManager.endTest();
+  }
+
+  @DataProvider
+  public String[][] duLieuKiemTraThongBaoLoiDiaChi() {
+    Faker faker = new Faker();
+    return new String[][]{
+        //TODO nhap test case
+    };
+
+  }
+
+  @Test(dataProvider = "duLieuKiemTraThongBaoLoiDiaChi")
+  public void kiemTraThongBaoLoiDiaChi(String tenTestCase, String moTa, String duLieuTest, String loiPhia, String noiDungLoi) {
+    boolean caseDung = true;
+    try {
+      driver.navigate().to(ManHinhDangKy.PAGE_URL);
+      ReportManager.startTest(tenTestCase, moTa);
+      taoDuLieuDung();
+      manHinhDangKy.nhapDiaChi(duLieuTest);
+      manHinhDangKy.clickNutDangKy();
+      String loi;
+      if (Objects.equals(loiPhia, "BE")) {
+        loi = manHinhDangKy.layThongBaoLoiBackend();
+      } else {
+        loi = manHinhDangKy.layThongBaoLoiFe();
+      }
+      if (!Objects.equals(loi, noiDungLoi)) {
+        ReportManager.logFail("Thông báo không chính xác ");
+        ReportManager.captureScreenshot(tenTestCase);
+        caseDung = false;
+      }
+    } catch (Exception e) {
+      ReportManager.logFail(e.getMessage());
+      ReportManager.captureScreenshot("Loi he thong");
+      caseDung = false;
+    }
+    Assert.assertTrue(caseDung);
+    ReportManager.endTest();
+  }
+
+  @DataProvider
+  public String[][] duLieuKiemTraThongBaoLoiSDTDN() {
+    Faker faker = new Faker();
+    return new String[][]{
+        //TODO nhap test case
+    };
+
+  }
+
+  @Test(dataProvider = "duLieuKiemTraThongBaoLoiSDTDN")
+  public void kiemTraThongBaoLoiSDTDN(String tenTestCase, String moTa, String duLieuTest, String loiPhia, String noiDungLoi) {
+    boolean caseDung = true;
+    try {
+      driver.navigate().to(ManHinhDangKy.PAGE_URL);
+      ReportManager.startTest(tenTestCase, moTa);
+      taoDuLieuDung();
+      manHinhDangKy.nhapSoDienThoaiDoanhNghiep(duLieuTest);
+      manHinhDangKy.clickNutDangKy();
+      String loi;
+      if (Objects.equals(loiPhia, "BE")) {
+        loi = manHinhDangKy.layThongBaoLoiBackend();
+      } else {
+        loi = manHinhDangKy.layThongBaoLoiFe();
+      }
+      if (!Objects.equals(loi, noiDungLoi)) {
+        ReportManager.logFail("Thông báo không chính xác ");
+        ReportManager.captureScreenshot(tenTestCase);
+        caseDung = false;
+      }
+    } catch (Exception e) {
+      ReportManager.logFail(e.getMessage());
+      ReportManager.captureScreenshot("Loi he thong");
+      caseDung = false;
+    }
+    Assert.assertTrue(caseDung);
+    ReportManager.endTest();
+  }
+
+  @DataProvider
+  public String[][] duLieuKiemTraThongBaoLoiSDTCN() {
+    Faker faker = new Faker();
+    return new String[][]{
+        //TODO nhap test case
+    };
+
+  }
+
+  @Test(dataProvider = "duLieuKiemTraThongBaoLoiSDTDN")
+  public void kiemTraThongBaoLoiSDTCN(String tenTestCase, String moTa, String duLieuTest, String loiPhia, String noiDungLoi) {
+    boolean caseDung = true;
+    try {
+      driver.navigate().to(ManHinhDangKy.PAGE_URL);
+      ReportManager.startTest(tenTestCase, moTa);
+      taoDuLieuDung();
+      manHinhDangKy.nhapSoDienThoaiCaNhan(duLieuTest);
+      manHinhDangKy.clickNutDangKy();
+      String loi;
+      if (Objects.equals(loiPhia, "BE")) {
+        loi = manHinhDangKy.layThongBaoLoiBackend();
+      } else {
+        loi = manHinhDangKy.layThongBaoLoiFe();
+      }
+      if (!Objects.equals(loi, noiDungLoi)) {
+        ReportManager.logFail("Thông báo không chính xác ");
+        ReportManager.captureScreenshot(tenTestCase);
+        caseDung = false;
+      }
+    } catch (Exception e) {
+      ReportManager.logFail(e.getMessage());
+      ReportManager.captureScreenshot("Loi he thong");
+      caseDung = false;
+    }
+    Assert.assertTrue(caseDung);
+    ReportManager.endTest();
   }
 
   public void taoDuLieuDung() {
