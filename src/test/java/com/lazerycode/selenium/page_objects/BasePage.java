@@ -64,6 +64,7 @@ public class BasePage {
       webElement.sendKeys(Keys.CONTROL + "a");
       webElement.sendKeys(Keys.DELETE);
       webElement.sendKeys(value);
+      waitAction();
       ReportManager.logInfo("Nhap giá trị: " + value + " trong phần tử có locator: " + query.by().toString());
     } catch (Exception e) {
       ReportManager.logFail("Không thể nhập giá trị trong phần tử có locator: " + query.by().toString());
@@ -97,6 +98,7 @@ public class BasePage {
       WebElement webElement = query.findWebElement();
       webElement.click();
       ReportManager.logInfo("Click vào phần tử có locator: " + query.by().toString());
+      waitAction();
     }catch (Exception e){
       ReportManager.logFail("Không thể click vào phần tử có locator: " + query.by().toString());
       ReportManager.captureScreenshot(Helper.getTimeStamp());
@@ -112,6 +114,7 @@ public class BasePage {
       Select dropdown = new Select(webElement);
       dropdown.selectByVisibleText(value);
       ReportManager.logInfo("Chọn giá trị: " + value + " trong dropdown có locator: " + query.by().toString());
+      waitAction();
     }catch (Exception e){
       ReportManager.logFail("Không thể chọn giá trị: " + value + " trong dropdown có locator: " + query.by().toString());
       ReportManager.captureScreenshot(Helper.getTimeStamp());
@@ -124,6 +127,7 @@ public class BasePage {
       Select dropdown = new Select(webElement);
       dropdown.selectByVisibleText(value);
       ReportManager.logInfo("Chọn giá trị: " + value + " trong dropdown có locator: ");
+      waitAction();
     }catch (Exception e){
       ReportManager.logFail("Không thể chọn giá trị: " + value + " trong dropdown có locator: ");
       ReportManager.captureScreenshot(Helper.getTimeStamp());
@@ -137,6 +141,7 @@ public class BasePage {
       Select dropdown = new Select(webElement);
       dropdown.selectByIndex(index);
       ReportManager.logInfo("Chọn giá trị tại vị trí: " + index + " trong dropdown có locator: " + query.by().toString());
+      waitAction();
     }catch (Exception e){
       ReportManager.logFail("Không thể chọn giá trị tại vị trí: " + index + " trong dropdown có locator: " + query.by().toString());
       ReportManager.captureScreenshot(Helper.getTimeStamp());
@@ -149,6 +154,7 @@ public class BasePage {
       Select dropdown = new Select(webElement);
       dropdown.selectByIndex(index);
       ReportManager.logInfo("Chọn giá trị tại vị trí: " + index + " trong dropdown có locator: ");
+      waitAction();
     }catch (Exception e){
       ReportManager.logFail("Không thể chọn giá trị tại vị trí: " + index + " trong dropdown có locator: ");
       ReportManager.captureScreenshot(Helper.getTimeStamp());
@@ -163,6 +169,7 @@ public class BasePage {
         checkbox.click(); // Click to check or uncheck the checkbox
       }
       ReportManager.logInfo("Chọn checkbox: " + isChecked + " trong phần tử có locator: " + query.by().toString());
+      waitAction();
     } catch (Exception e) {
       ReportManager.logFail("Không thể chọn checkbox: " + isChecked + " trong phần tử có locator: " + query.by().toString());
       ReportManager.captureScreenshot(Helper.getTimeStamp());
